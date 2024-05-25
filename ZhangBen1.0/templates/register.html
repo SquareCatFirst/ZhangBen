@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .registration-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+        }
+
+        .registration-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .registration-container input[type="text"],
+        .registration-container input[type="email"],
+        .registration-container input[type="tel"],
+        .registration-container input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .registration-container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .registration-container input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="registration-container">
+    <h2>Registration</h2>
+    <form id="registrationForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="text" id="nickname" placeholder="Nickname" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="tel" id="phone" placeholder="Phone Number" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <input type="password" id="cfpwd" placeholder="Confirm Password" required>
+        <input type="submit" value="Register">
+    </form>
+</div>
+<script>
+    document.getElementById('registrationForm').addEventListener('submit',function (event){
+
+        event.preventDefault();
+        var username = document.getElementById('username').value;
+        var nickname = document.getElementById('nickname').value;
+        var email = document.getElementById('email').value;
+        var phone = document.getElementById('phone').value;
+        var password = document.getElementById('password').value;
+        var confirmpassword = document.getElementById('cfpwd').value
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/reg', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+                alert(xhr.responseText)
+            } else if (xhr.readyState === 4) {
+                console.error('Error:', xhr.status, xhr.statusText);
+                alert(xhr.responseText)
+            }
+        };
+        var data = JSON.stringify({
+            username:username,
+            nickname:nickname,
+            email:email,
+            phone:phone,
+            password:password,
+            confirmpassword:confirmpassword
+        });
+
+        xhr.send(data);
+    });
+</script>
+</body>
+</html>

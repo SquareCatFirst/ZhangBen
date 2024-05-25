@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分栏布局页面</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+        }
+        .navbar {
+            width: 5%;
+            background-color: #007bff;
+            color: black;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.9em; /* 调整字体大小 */
+        }
+        .content {
+            width: 95%;
+            background-color: white;
+            padding: 20px;
+            box-sizing: border-box;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+        }
+        .navbar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0 0 0;  /* 上方留出空间 */
+            text-align: center;
+        }
+        .navbar li {
+            margin: 10px 0;
+        }
+        .navbar a {
+            color: black;
+            text-decoration: none;
+        }
+        .form-container {
+            margin-bottom: 20px; /* 为选择框容器增加下边距 */
+        }
+        .form-container label {
+            margin-right: 10px; /* 为标签和选择框之间增加空隙 */
+        }
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px; /* 每行表单元素之间的间距 */
+        }
+        .form-row label {
+            margin-right: 10px;
+        }
+        .form-row select, .form-row input {
+            margin-right: 20px;
+            padding: 5px;
+        }
+
+        .scroll-container {
+            overflow-y: auto;
+            height: 300px; /* 设置容器的高度 */
+            width: 35%; /* 设置容器的宽度 */
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px; /* 设置顶部间距 */
+            float: left; /* 让容器靠左 */
+            margin-right: 20px; /* 添加右边距，留出空隙 */
+        }
+
+        .scroll-content {
+            max-height: 100%; /* 设置内容的最大高度 */
+        }
+
+        .scroll-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .scroll-container th {
+            position: sticky; /* 让标题固定 */
+            top: 0; /* 将标题固定在顶部 */
+            background-color: white; /* 设置背景色 */
+            z-index: 1; /* 提高层级，使其在内容之上 */
+        }
+
+        .scroll-container th,
+        .scroll-container td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+
+
+
+        .scroll-container2 {
+            overflow-y: auto;
+            height: 300px; /* 设置容器的高度 */
+            width: 35%; /* 设置容器的宽度 */
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px; /* 设置顶部间距 */
+            float: left; /* 让容器靠左 */
+            margin-right: 20px; /* 添加右边距，留出空隙 */
+        }
+
+        .scroll-content2 {
+            max-height: 100%; /* 设置内容的最大高度 */
+        }
+
+        .scroll-container2 table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .scroll-container2 th {
+            position: sticky; /* 让标题固定 */
+            top: 0; /* 将标题固定在顶部 */
+            background-color: white; /* 设置背景色 */
+            z-index: 1; /* 提高层级，使其在内容之上 */
+        }
+
+        .scroll-container2 th,
+        .scroll-container2 td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+
+
+
+
+
+        .scroll-container3 {
+            clear: both; /* 清除前面元素的浮动，确保它在新的一行开始 */
+            overflow-y: auto;
+            height: 400px; /* 设置容器的高度 */
+            width: 72.5%; /* 设置容器的宽度 */
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px; /* 设置顶部间距 */
+            float: left; /* 让容器靠左 */
+            margin-right: 20px; /* 添加右边距，留出空隙 */
+        }
+
+        .scroll-content3 {
+            max-height: 100%; /* 设置内容的最大高度 */
+        }
+
+        .scroll-container3 table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .scroll-container3 th {
+            position: sticky; /* 让标题固定 */
+            top: 0; /* 将标题固定在顶部 */
+            background-color: white; /* 设置背景色 */
+            z-index: 1; /* 提高层级，使其在内容之上 */
+        }
+
+        .scroll-container3 th,
+        .scroll-container3 td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+<div id="index">
+
+</div>
+<div class="navbar">
+    <h2>导航</h2>
+    <ul>
+        <li><a href="#">主页</a></li>
+        <li><a href="#">用户</a></li>
+    </ul>
+</div>
+<div class="user">
+    <input type="hidden" id="uid" value="">
+    <input type="hidden" id="username" value="">
+    <input type="hidden" id="nickname" value="">
+</div>
+<div  class="content">
+    <div class="form-row">
+        <label for="account-book">账本选择：</label>
+        <select id="account-book" name="account-book" onchange="updateCookie()">
+            <option value="1">默认账本</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <form id="AddZD">
+            <label>添加新账单：</label>
+            <label for="typ">类型：</label>
+            <select id="typ" name="type">
+                <option value="food">餐饮</option>
+                <option value="shop">购物</option>
+                <option value="daily">日用</option>
+                <option value="transportation">交通</option>
+                <option value="sport">运动</option>
+                <option value="study">学习</option>
+                <option value="donation">捐赠</option>
+                <option value="envelope">红包</option>
+                <option value="game">游戏</option>
+                <option value="other">其他</option>
+            </select>
+            <label for="inex">收支选择：</label>
+            <select id="inex" name="inout">
+                <option value="expense">支出</option>
+                <option value="income">收入</option>
+            </select>
+            <label for="money">金额：</label>
+            <input type="text" id="money" name="amount" placeholder="输入金额">
+            <label for="note">备注：</label>
+            <input type="text" id="note" name="note" placeholder="输入备注">
+            <button type="submit" id="zd">确认</button>
+        </form>
+    </div>
+
+    <div class="form-container">
+        <div class="scroll-container">
+            <h2>年度统计</h2>
+            <div class="scroll-content">
+                <table id="YearData">
+                    <thead>
+                    <tr>
+                        <th>年份</th>
+                        <th>年收入</th>
+                        <th>年支出</th>
+                        <th>结余</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>2023</td>
+                        <td>10000</td>
+                        <td>7000</td>
+                        <td>3000</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="scroll-container2">
+            <h2>月度统计</h2>
+            <div class="scroll-content2">
+                <table id="MonthData">
+                    <thead>
+                    <tr>
+                        <th>年月</th>
+                        <th>月收入</th>
+                        <th>月支出</th>
+                        <th>结余</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>2023</td>
+                        <td>10000</td>
+                        <td>7000</td>
+                        <td>3000</td>
+                    </tr>
+                    <tr>
+                        <td>2022</td>
+                        <td>12000</td>
+                        <td>8000</td>
+                        <td>4000</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="scroll-container3">
+            <h2>历史账单</h2>
+            <div class="scroll-content3">
+                <table id="HistoryData">
+                    <thead>
+                    <tr>
+                        <th>年月日</th>
+                        <th>类型</th>
+                        <th>金额</th>
+                        <th>备注</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr >
+                        <td>2023</td>
+                        <td>7000</td>
+                        <td>3000</td>
+                        <td>3000</td>
+                        <td><button type="submit">删除</button> <button type="reset">编辑</button> </td> <!-- 删除按钮 -->
+                    </tr>
+                    <tr>
+                        <td>2022</td>
+                        <td>8000</td>
+                        <td>3000</td>
+                        <td>3000</td>
+                        <td><button class="delete-btn">删除</button> <button class="edit-btn">编辑</button> </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="index.js"> </script>
+
+</body>
+</html>
+
