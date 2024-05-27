@@ -3,7 +3,7 @@ document.getElementById('loginForm').addEventListener('submit',function (event){
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/loginTry', true);
+    xhr.open('POST', '/LGRG/loginTry', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {

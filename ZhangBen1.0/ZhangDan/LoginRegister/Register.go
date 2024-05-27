@@ -1,4 +1,4 @@
-package Register
+package LoginRegister
 
 import (
 	"ZhangBen1.0/DB"

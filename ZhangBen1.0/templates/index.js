@@ -13,7 +13,7 @@ window.onload = function () {
 
 function fetchYearData() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/YearData', true); // Assuming your backend endpoint is /data
+    xhr.open('GET', '/Data/YearData', true); // Assuming your backend endpoint is /data
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var data = JSON.parse(xhr.responseText);
@@ -36,7 +36,7 @@ function fetchYearData() {
 
 function  fetchMonthData() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/MonthData', true); // Assuming your backend endpoint is /data
+    xhr.open('GET', '/Data/MonthData', true); // Assuming your backend endpoint is /data
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var data = JSON.parse(xhr.responseText);
@@ -60,7 +60,7 @@ function  fetchMonthData() {
 
 function fetchHistoryData() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/HistoryData', true); // Assuming your backend endpoint is /data
+    xhr.open('GET', '/Data/HistoryData', true); // Assuming your backend endpoint is /data
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var data = JSON.parse(xhr.responseText);
@@ -84,7 +84,7 @@ function fetchHistoryData() {
 }
 function deleteRow(dataid) {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/delete-data', true); // Assuming your delete endpoint is /delete
+    xhr.open('POST', '/CURD/delete-data', true); // Assuming your delete endpoint is /delete
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -128,7 +128,7 @@ document.getElementById('AddZD').addEventListener('submit',function (event){
         }, // 指定数据格式为JSON
         body:JSON.stringify(zhangdan)
     }
-    fetch('/index/AddZhangDan',T)
+    fetch('/CURD/AddZhangDan',T)
         .then(respose => {
             if (!respose.ok) {
                 alert(respose)
