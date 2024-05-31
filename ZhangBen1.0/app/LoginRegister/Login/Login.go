@@ -52,6 +52,7 @@ func Login(c *gin.Context) {
 		return
 	}
 	//	ok := false
+
 	if uslog.Password == loginReq.Password {
 		//	c.JSON(http.StatusOK, gin.H{"messgae": "登录成功"})
 		fmt.Println("登录成功")

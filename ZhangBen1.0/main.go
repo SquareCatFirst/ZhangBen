@@ -2,8 +2,8 @@ package main
 
 import (
 	"ZhangBen1.0/DB"
-	LG "ZhangBen1.0/Login"
-	ZD "ZhangBen1.0/ZhangDan"
+	DG "ZhangBen1.0/app/DataGroup"
+	LoRe "ZhangBen1.0/app/LoginRegister"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
@@ -32,32 +32,33 @@ func main() {
 	DB.Db = DB.DBinit()
 	defer DB.Db.Close()
 	router := gin.Default()
-
 	router.Static("/test", "./templates")
 	router.LoadHTMLGlob("templates/*")
 
-	router.GET("/", func(c *gin.Context) {
+	router.GET("", func(c *gin.Context) {
 		c.Redirect(http.StatusMovedPermanently, "/test/login.html")
 	})
 	router.GET("/login", func(c *gin.Context) {
 		c.Redirect(http.StatusMovedPermanently, "/test/login.html")
 	})
 
-	router.GET("/HistoryData", ZD.HistoryData)
-	router.GET("/MonthData", ZD.MonthData)
-	router.GET("/YearData", ZD.YearData)
+	d := DG.DataHandle{}
+	d.RegisterDataRoutes(router)
 
-	router.POST("/index/AddZhangDan", ZD.AddZhangDan)
-	router.POST("/delete-data", ZD.DeleteData)
+	c := DG.CURDHandle{}
+	c.RegisterCURDRoutes(router)
 
-	router.POST("/loginTry", LG.Login)
+	l := LoRe.LoReHandle{}
+	l.RegisterLoReRoutes(router)
 
-	router.POST("/ZB-set-cookie")
+	//	router.POST("/ZB-set-cookie")
 
-	err := router.Run("10.0.1.104:1145")
-	if err != nil {
-		log.Fatal(err)
-	}
+	go func() {
+		err := router.Run("10.0.1.104:1145")
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
 
 	quit := make(chan os.Signal)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
