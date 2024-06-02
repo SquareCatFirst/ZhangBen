@@ -10,6 +10,7 @@ type LoReHandle struct {
 }
 
 func (l *LoReHandle) RegisterLoReRoutes(r *gin.Engine) {
+
 	LGRGGroup := r.Group("/LGRG")
 	LGRGGroup.POST("/loginTry", Login.Login)
 	LGRGGroup.POST("/reg", Register.Register)

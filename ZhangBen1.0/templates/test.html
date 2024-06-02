@@ -40,6 +40,31 @@
             border-radius: 4px;
         }
 
+        .captcha-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .captcha-container input[type="text"] {
+            width: calc(60% - 10px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .captcha-image {
+            width: 40%;
+            height: 38px;
+            background-color: #e4e4e4;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .registration-container input[type="submit"] {
             width: 100%;
             padding: 10px;
@@ -65,6 +90,13 @@
         <input type="tel" id="phone" placeholder="Phone Number" required>
         <input type="password" id="password" placeholder="Password" required>
         <input type="password" id="cfpwd" placeholder="Confirm Password" required>
+        <div class="captcha-container">
+            <input type="text" id="captcha" placeholder="Captcha" required>
+            <div class="captcha-image">
+                <!-- 验证码图片 -->
+                <img src="captcha.jpg" alt="Captcha">
+            </div>
+        </div>
         <input type="submit" value="Register">
     </form>
 </div>
