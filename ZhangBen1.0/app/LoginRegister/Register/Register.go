@@ -3,6 +3,7 @@ package Register
 import (
 	"ZhangBen1.0/DB"
 	UT "ZhangBen1.0/UserType"
+	regexp "github.com/dlclark/regexp2"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -21,6 +22,10 @@ type uid struct {
 }
 
 func Register(c *gin.Context) {
+	const (
+		emailRegexPattern    = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"
+		passwordRegexPattern = `^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&+-/])[A-Za-z\d$@$!%*#?&+-/]{8,}$`
+	)
 	var u RegUser
 	if err := c.ShouldBindJSON(&u); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"messgae": "无效的请求数据"})
@@ -30,6 +35,30 @@ func Register(c *gin.Context) {
 	if err := DB.Db.Model(&finduser).Where("username = ?", u.Username).Select(); err == nil {
 		c.JSON(http.StatusBadRequest, gin.H{"messgae": "用户名重复"})
 		return
+	}
+
+	{
+		emailexp := regexp.MustCompile(emailRegexPattern, regexp.None)
+		isemail, err := emailexp.MatchString(u.Email)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"messgae": "系统错误"})
+			return
+		}
+		if !isemail {
+			c.JSON(http.StatusBadRequest, gin.H{"messgae": "邮箱格式错误"})
+			return
+		}
+
+		pwdexp := regexp.MustCompile(passwordRegexPattern, regexp.None)
+		ispwd, err := pwdexp.MatchString(u.Password)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"messgae": "系统错误"})
+			return
+		}
+		if !ispwd {
+			c.JSON(http.StatusBadRequest, gin.H{"messgae": "密码格式错误(密码必须不少于八位，必须要包含一个数字、一个字母、一个特殊字符($@$!%*#?&+-/))"})
+			return
+		}
 	}
 
 	if u.Password != u.ConfirmPassword {
