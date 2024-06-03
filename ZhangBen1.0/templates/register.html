@@ -29,6 +29,25 @@
             text-align: center;
         }
 
+        .captcha-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            width: calc(100% - 10px); /* 将验证码容器的宽度设置为剩余空间 */
+        }
+
+        .captcha-image {
+            width: 40%;
+            height: 38px;
+            background-color: #e4e4e4;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
         .registration-container input[type="text"],
         .registration-container input[type="email"],
         .registration-container input[type="tel"],
@@ -65,6 +84,14 @@
         <input type="tel" id="phone" placeholder="Phone Number" required>
         <input type="password" id="password" placeholder="Password" required>
         <input type="password" id="cfpwd" placeholder="Confirm Password" required>
+        <input type="hidden" id="captcha-id" name="captcha-id">
+        <div class="captcha-container">
+            <input type="text" id="captcha-value" placeholder="Captcha-value" required>
+            <div class="captcha-image" id="img_captcha">
+                <!-- 验证码图片 -->
+                <img src="" alt="Captcha" id="xiaxinimg">
+            </div>
+        </div>
         <input type="submit" value="Register">
     </form>
 </div>

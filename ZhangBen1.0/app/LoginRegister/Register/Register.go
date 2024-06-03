@@ -5,6 +5,7 @@ import (
 	UT "ZhangBen1.0/UserType"
 	regexp "github.com/dlclark/regexp2"
 	"github.com/gin-gonic/gin"
+	"github.com/mojocn/base64Captcha"
 	"net/http"
 )
 
@@ -15,6 +16,8 @@ type RegUser struct {
 	Phone           string `json:"phone"`
 	Password        string `json:"password"`
 	ConfirmPassword string `json:"confirmpassword"`
+	CaptchaID       string `json:"captchaid"`
+	CaptchaAnswer   string `json:"captchaanswer"`
 }
 type uid struct {
 	Id  int `json:"id"`
@@ -64,7 +67,28 @@ func Register(c *gin.Context) {
 	if u.Password != u.ConfirmPassword {
 		c.JSON(http.StatusBadRequest, gin.H{"messgae": "两次输入的密码不一致"})
 		return
-	} else {
+	}
+
+	{
+		captchaId := u.CaptchaID
+		captchaSolution := u.CaptchaAnswer
+
+		if captchaId == "" || captchaSolution == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"message": "captcha_id and captcha_solution are required"})
+			return
+		}
+
+		driver := Drivers
+		captcha := base64Captcha.NewCaptcha(driver, CapchaStore)
+
+		if captcha.Verify(captchaId, captchaSolution, true) {
+		} else {
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "验证码错误"})
+			return
+		}
+	}
+
+	{
 
 		var t uid
 		err := DB.Db.Model(&t).Select()
